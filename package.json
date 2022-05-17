@@ -1,6 +1,6 @@
 {
-	"name": "organizejson",
-	"displayName": "OrganizeJSON",
+	"name": "myformatjson",
+	"displayName": "MyFormatJSON",
 	"description": "",
 	"version": "0.0.1",
 	"engines": {
@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:organizejson.helloWorld"
+		"onCommand:MyFormatJSON.formatJSON"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "organizejson.helloWorld",
-				"title": "Hello World"
+				"command": "MyFormatJSON.formatJSON",
+				"title": "Format JSON"
 			}
 		]
 	},
@@ -30,16 +30,17 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.67.0",
 		"@types/glob": "^7.2.0",
 		"@types/mocha": "^9.1.1",
 		"@types/node": "14.x",
+		"@types/vscode": "^1.67.0",
 		"@typescript-eslint/eslint-plugin": "^5.21.0",
 		"@typescript-eslint/parser": "^5.21.0",
+		"@vscode/test-electron": "^2.1.3",
 		"eslint": "^8.14.0",
 		"glob": "^8.0.1",
 		"mocha": "^9.2.2",
 		"typescript": "^4.6.4",
-		"@vscode/test-electron": "^2.1.3"
+		"vsce": "^2.7.0"
 	}
 }
