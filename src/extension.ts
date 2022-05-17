@@ -1,26 +1,77 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "organizejson" is now active!');
+	const formatText = vscode.commands.registerCommand("MyFormatJSON.formatJSON",()=>{
+		const editor = vscode.window.activeTextEditor;
+		if(editor){
+			const selection=editor.selection
+			const doc=editor.document;
+			const text=doc.getText(selection);
+			if(text){
+				let textFormatted = formatJSON(text);
+				if(textFormatted){
+					editor.edit(editBuilder => {
+						editBuilder.replace(selection,textFormatted);
+					})
+				}
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('organizejson.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from OrganizeJSON!');
+			}
+		}
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(formatText);
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function formatJSON(text :string) {
+	// const conf = vscode.workspace.getConfiguration("editor");
+
+	let returnText="";
+
+	let idt=0
+	let tmpText=""
+	for(let i=0;i<text.length-1;i++){
+		let c=text[i];
+
+		tmpText+=c;
+
+		let cNext=text[i+1];
+		switch(cNext){
+			case "]":
+				if(c=="["){
+					continue;
+				}
+			case "}":
+				idt--;
+				returnText+=indent(idt,tmpText);
+				tmpText="";
+				continue;
+		}
+		
+		switch(c){
+			case "{":
+			case "[":
+				idt++;
+				returnText+=indent(idt,tmpText);
+				tmpText="";
+				break;
+			case ",":
+				returnText+=indent(idt,tmpText);
+				tmpText="";
+				break;
+		}
+	}
+
+	returnText+=text[text.length-1];
+
+	return returnText;
+}
+
+export function indent(idt : number,text:string){
+	text+="\n";
+
+	for(let i=0;i<idt;i++){
+		text+="\t";
+	}
+
+	return text;
+}
