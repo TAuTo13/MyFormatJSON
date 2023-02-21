@@ -1,11 +1,10 @@
 # MyFormatJSON README
 
-Add indent to JSON Document.
+VSCode extension for adds indent for JSON Document.
 
 ## Features
 
 Select text range you want to format.And open command pallete run [Format JSON] command.
-
 
 ## Known Issues
 
